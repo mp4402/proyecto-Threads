@@ -7,3 +7,5 @@ WORKDIR /Docker_proyecto/
 RUN gcc -o un_hilo un_hilo.c -lm
 
 CMD ./un_hilo
+
+#docker run --cpus="1.0" --memory="1g" docker-proyecto-un-hilo
