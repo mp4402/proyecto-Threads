@@ -4,6 +4,6 @@ COPY . /DockerWorld
 
 WORKDIR /DockerWorld/
 
-RUN gcc -o DockerWorld threads.c -pthread
+RUN gcc -o un_hilo un_hilo.c
 
-CMD ./DockerWorld 3
+CMD ./un_hilo
