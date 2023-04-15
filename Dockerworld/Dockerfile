@@ -4,6 +4,6 @@ COPY . /DockerWorld
 
 WORKDIR /DockerWorld/
 
-RUN gcc -o DockerWorld DockerWorld.c
+RUN gcc -o DockerWorld threads.c
 
-CMD ./DockerWorld
+CMD ./DockerWorld 3
