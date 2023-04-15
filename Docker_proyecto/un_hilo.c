@@ -79,7 +79,7 @@ void lectura (FILE *fp, int num){
         printf("Trouble reading file ! \nProgram Tereminating ... ");
         exit(0);
     }
-    float acum_open = 0, acum_high = 0, acum_low = 0, acum_close = 0;
+    Float acum_open = 0, acum_high = 0, acum_low = 0, acum_close = 0;
     total = 0;
     while (fgets(line, 200, fp) != NULL){
         sp = strtok(line, ","); // leo la fecha
@@ -125,4 +125,4 @@ int main() {
    }
     
     return 0;
-} 
+}
