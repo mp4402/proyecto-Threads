@@ -5,7 +5,6 @@
 // prueba
 #include <unistd.h>
 #include <time.h>
-#include <sys/wait.h>
 
 
 
@@ -123,12 +122,17 @@ void lectura (FILE *fp, int num){
 
 int main() {
     clock_t start, end;
-    double execution_time;
     start = clock();
     FILE *fp;
     int i;
     for (i = 1; i <= 999; i++) {
       lectura(fp, i);
     }
+    end = clock();
+    double duration = ((double)end - start)/CLOCKS_PER_SEC;
+    char *filename = "so_respuesta/time.txt";
+    fp = fopen(filename, "w+");
+    fprintf(fp, "%.2f",duration);
+    fclose(fp);
     return 0;
 }
