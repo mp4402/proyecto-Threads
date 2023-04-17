@@ -9,3 +9,4 @@ RUN gcc -o un_hilo un_hilo.c -lm
 CMD ./un_hilo
 
 #docker run --cpus="1.0" --memory="1g" -v C:/GitHub/proyecto-Threads/Docker_proyecto/so_respuesta:/Docker_proyecto/so_respuesta un-hilo
+#docker run --cpus="1.0" --memory="1g" -v /Users/carlosalvarado/Desktop/SO/proyecto-Threads/Docker_proyecto/so_respuesta:/Docker_proyecto/so_respuesta docker-proyecto-un-hilo
