@@ -78,15 +78,14 @@ void lectura (FILE *fp, int num){
     media_high = thigh/(total-1);
     media_low = tlow/(total-1);
     media_close = tclose/(total-1);
-    FILE *fp1;
-    fp1 = fopen(file, "r");
-    if (fp1 == NULL){
+    fp = fopen(file, "r");
+    if (fp == NULL){
         printf("Trouble reading file ! \nProgram Tereminating ... ");
         exit(0);
     }
     float acum_open = 0, acum_high = 0, acum_low = 0, acum_close = 0;
     total = 0;
-    while (fgets(line, 200, fp1) != NULL){
+    while (fgets(line, 200, fp) != NULL){
         sp = strtok(line, ","); // leo la fecha
         total = total + 1; 
         sp = strtok(NULL, ","); // leo open
@@ -110,17 +109,16 @@ void lectura (FILE *fp, int num){
             acum_close += pow(close - media_close, 2);
         }
     }
-    fclose(fp1);
+    fclose(fp);
     snprintf(file, 35, "so_respuesta/archivo_out_%d.csv", num);
-    FILE *fp2;
-    fp2 = fopen(file, "w+");
-    fprintf(fp2,"Open,High, Low, Close\n");
-    fprintf(fp2,"Count, %.2f, %.2f, %.2f, %.2f, \n", total, total, total, total);
-    fprintf(fp2,"Mean, %.2f, %.2f, %.2f, %.2f, \n", media_open, media_high, media_low, media_close);
-    fprintf(fp2,"Std, %.2f, %.2f, %.2f, %.2f, \n", sqrt(acum_open/(total-1)), sqrt(acum_high/(total-1)), sqrt(acum_low/(total-1)), sqrt(acum_close/(total-1)));
-    fprintf(fp2,"Min, %.2f, %.2f, %.2f, %.2f, \n", min_open, min_high, min_low, min_close);
-    fprintf(fp2,"Max,%.2f, %.2f, %.2f, %.2f, \n", max_open, max_high, max_low, max_close);
-    fclose(fp2);
+    fp = fopen(file, "w+");
+    fprintf(fp,"Open,High, Low, Close\n");
+    fprintf(fp,"Count, %.2f, %.2f, %.2f, %.2f, \n", total, total, total, total);
+    fprintf(fp,"Mean, %.2f, %.2f, %.2f, %.2f, \n", media_open, media_high, media_low, media_close);
+    fprintf(fp,"Std, %.2f, %.2f, %.2f, %.2f, \n", sqrt(acum_open/(total-1)), sqrt(acum_high/(total-1)), sqrt(acum_low/(total-1)), sqrt(acum_close/(total-1)));
+    fprintf(fp,"Min, %.2f, %.2f, %.2f, %.2f, \n", min_open, min_high, min_low, min_close);
+    fprintf(fp,"Max,%.2f, %.2f, %.2f, %.2f, \n", max_open, max_high, max_low, max_close);
+    fclose(fp);
 }
 
 void *runner(void *param); /* la hebra */
@@ -128,7 +126,7 @@ struct rango_files
 {
     int arg1;
     int arg2;
-    int pos_fp;
+    FILE *fp;
 };
 
 
@@ -140,15 +138,12 @@ int main() {
     struct rango_files a; 
     a.arg1 = 250;
     a.arg2 = 499;
-    a.pos_fp = 1;
     struct rango_files b; 
     b.arg1 = 500;
     b.arg2 = 749;
-    b.pos_fp = 2;
     struct rango_files c; 
     c.arg1 = 750;
     c.arg2 = 999;
-    c.pos_fp = 3;
     // Creación de hilos
     pthread_t tid1; /* el identificador de la hebra */
     pthread_attr_t attr1; /* conjunto de atributos de la hebra */
@@ -164,8 +159,8 @@ int main() {
     pthread_attr_init(&attr3);
     /* crear la hebra */
     pthread_create(&tid1, &attr1, &runner, (void *)&a); 
-    pthread_create(&tid2, &attr2, &runner, (void *)&b); 
-    pthread_create(&tid3, &attr3, &runner, (void *)&c); 
+    //pthread_create(&tid2, &attr2, &runner, (void *)&b); 
+    //pthread_create(&tid3, &attr3, &runner, (void *)&c); 
     /* esperar a que la hebra termine */ 
     for (i = 1; i <= 249; i++) {
       lectura(fp, i);
@@ -176,33 +171,18 @@ int main() {
     end = clock();
     double duration = ((double)end - start)/CLOCKS_PER_SEC;
     char *filename = "so_respuesta/time.txt";
-    FILE *fp_txt;
-    fp_txt = fopen(filename, "w+");
-    fprintf(fp_txt, "%.2f",duration);
-    fclose(fp_txt);
+    fp = fopen(filename, "w+");
+    fprintf(fp, "%.2f",duration);
+    fclose(fp);
     return 0;
 }
 
 void *runner(void *param)
 {
-    struct rango_files *args = param;  
+    struct rango_files *args = param;
     int i;
     for (i = (args->arg1); i <= args->arg2; i++) {
-        switch(args->pos_fp){    
-        case 1:    
-            FILE *fp_thread1; 
-            lectura(fp_thread1, i);   
-        break;
-        case 2:    
-            FILE *fp_thread2;
-            lectura(fp_thread2, i);
-        break; 
-        case 3:
-            FILE *fp_thread3;
-            lectura(fp_thread3, i);
-        break;   
-        default:        
-    }  
+      lectura(args->fp, i);
     }
     pthread_exit(0);
 }
