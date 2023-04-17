@@ -122,6 +122,9 @@ void lectura (FILE *fp, int num){
 }
 
 int main() {
+    clock_t start, end;
+    double execution_time;
+    start = clock();
     FILE *fp;
     int i;
     for (i = 1; i <= 999; i++) {
