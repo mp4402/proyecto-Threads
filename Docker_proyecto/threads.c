@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
         fprintf (stderr, "uso: a.out <valor entero>\n"); 
         return -1;
     }
-    if (atoi(argv[1])<0){
-        fprintf(stderr, "%d debe ser >= 0 \n", atoi(argv[1]));
+    if (strtol(argv[1])<0){
+        fprintf(stderr, "%d debe ser >= 0 \n", strtol(argv[1]));
         return -1;
     }
     /* obtener los atributos predeterminados */ 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* La hebra inicia su ejecución en esta función */ 
 void *runner(void *param)
 {
-    int i, upper = atoi(param);
+    int i, upper = strtol(param);
     sum = 0;
     for (i = 1; i <= upper; i++){
         sum += i;
