@@ -7,7 +7,11 @@
 //hilos
 #include <pthread.h>
 
-
+char * HELLO_MESSAGE; 
+int THREADS_CREATED = 0; 
+pthread_mutex_t hello_msg_lock = PTHREAD_MUTEX_INITIALIZER; 
+pthread_cond_t msg_created_cond = PTHREAD_COND_INITIALIZER; 
+int msg_initialized = 0; 
 
 void lectura (FILE *fp, int num){
     char file[35];
@@ -122,6 +126,7 @@ void lectura (FILE *fp, int num){
 }
 
 void *runner(void *param); /* la hebra */
+void *runner2(void *param); /* la hebra */
 struct rango_files
 {
     int arg1;
@@ -158,16 +163,16 @@ int main() {
      /* obtener los atributos predeterminados */ 
     pthread_attr_init(&attr3);
     /* crear la hebra */
-    pthread_create(&tid1, &attr1, &runner, (void *)&a); 
-    //pthread_create(&tid2, &attr2, &runner, (void *)&b); 
-    //pthread_create(&tid3, &attr3, &runner, (void *)&c); 
+    pthread_create(&tid1, &attr1, runner, (void *)&a); 
+    pthread_create(&tid2, &attr2, runner2, (void *)&b); 
+    //pthread_create(&tid3, &attr3, runner3, (void *)&c); 
     /* esperar a que la hebra termine */ 
-    for (i = 1; i <= 249; i++) {
+    /*for (i = 1; i <= 249; i++) {
       lectura(fp, i);
-    }
+    }*/
     pthread_join(tid1,NULL);
     pthread_join(tid2,NULL);
-    pthread_join(tid3,NULL);
+    //pthread_join(tid3,NULL);
     end = clock();
     double duration = ((double)end - start)/CLOCKS_PER_SEC;
     char *filename = "so_respuesta/time.txt";
@@ -181,6 +186,24 @@ void *runner(void *param)
 {
     struct rango_files *args = param;
     int i;
+    for (i = (args->arg1); i <= args->arg2; i++) {
+      lectura(args->fp, i);
+    }
+    pthread_mutex_lock(&hello_msg_lock); 
+    msg_initialized = 1; 
+    pthread_cond_signal(&msg_created_cond); 
+    pthread_mutex_unlock(&hello_msg_lock); 
+    pthread_exit(0);
+}
+void *runner2(void *param)
+{
+    struct rango_files *args = param;
+    int i;
+    pthread_mutex_lock(&hello_msg_lock); 
+    while(msg_initialized == 0){
+        pthread_cond_wait(&msg_created_cond,&hello_msg_lock);   
+    }
+    pthread_mutex_unlock(&hello_msg_lock); 
     for (i = (args->arg1); i <= args->arg2; i++) {
       lectura(args->fp, i);
     }
