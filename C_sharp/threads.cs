@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace App{
-
     static class Globals
     {
         public static string pathBase = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_data\index_data_";
@@ -18,24 +17,48 @@ namespace App{
         static void Main(string[] args)
         {
             Stopwatch stopwatch = new Stopwatch();
- 
             stopwatch.Start();
-            string path = "";
-            Thread thread1 = new Thread(func_thr);
-            thread1.Start(1000);
-            for (int i = 1; i <= 500; i++){
-                path = Globals.pathBase + i.ToString() + ".csv";
-                readFile(path);
+            if (args.Length > 0)
+            {
+                int value = Convert.ToInt32(args[0]);
+                switch(value) 
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        Thread thread1 = new Thread(() => func_thr(501,1000));
+                        thread1.Start();
+                        ciclo(1,501);
+                        thread1.Join();
+                        break;
+                    case 4:
+                        break;
+                    case 8:
+                        break;
+                    default:
+                        Console.WriteLine("Los unicos parametros validos para el numero de hilos son: [1, 2, 4, 8]");
+                        break;
+                }
             }
-            thread1.Join();
+            else
+            {
+                Console.WriteLine("No hay parametros");
+            }
             stopwatch.Stop();
             Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
-        static void func_thr(object limitValue){
+        static void ciclo(int inicio, int final){
             string path = "";
-            int value = Convert.ToInt32(limitValue);
-            for (int i = (value-499); i < value; i++){
+            for (int i = inicio; i < final; i++){
+                path = Globals.pathBase + i.ToString() + ".csv";
+                readFile(path);
+            }
+        }
+
+        static void func_thr(object inicio, object final){
+            string path = "";
+            for (int i = Convert.ToInt32(inicio); i < Convert.ToInt32(final); i++){
                 path = Globals.pathBase + i.ToString() + ".csv";
                 readFile(path);
             }
