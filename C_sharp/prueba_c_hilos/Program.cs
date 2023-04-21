@@ -21,8 +21,8 @@ namespace App{
             stopwatch.Start();
             if (args.Length > 1)
             {
-                int value = Convert.ToInt32(args[1]);
-                switch(args[0].ToLower()){
+                int value = Convert.ToInt32(args[2]);
+                switch(args[1].ToLower()){
                     case "files":
                         Thread thread1;
                         Thread thread2;
