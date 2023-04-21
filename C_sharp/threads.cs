@@ -11,6 +11,7 @@ namespace App{
     static class Globals
     {
         public static string pathBase = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_data\index_data_";
+        //public static string pathBase =  @"/Users/carlosalvarado/Desktop/SO/proyecto-Threads/Docker_proyecto/so_data/index_data_";
     }
     class un_hilo {
 
@@ -158,6 +159,7 @@ namespace App{
 
         static void generateCsvFile(List<int> sizes, List<double> averages, List<double> stds, List<int> mins, List<int> maxs, string no_document){
             var path = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_respuesta\index_data_out_" + no_document + ".csv";
+            //var path = @"/Users/carlosalvarado/Desktop/SO/proyecto-Threads/Docker_proyecto/so_respuesta/archivo_out_" + no_document + ".csv";
             var csv = new StringBuilder();
             var newLine = string.Format("{0},{1},{2},{3},{4}","","Open", "High", "Low", "Close");
             csv.AppendLine(newLine);

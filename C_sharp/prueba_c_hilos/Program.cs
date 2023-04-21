@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace App{
-
     static class Globals
     {
+        //public static string pathBase = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_data\index_data_";
         public static string pathBase =  @"/Users/carlosalvarado/Desktop/SO/proyecto-Threads/Docker_proyecto/so_data/index_data_";
     }
     class un_hilo {
@@ -18,24 +18,88 @@ namespace App{
         static void Main(string[] args)
         {
             Stopwatch stopwatch = new Stopwatch();
- 
             stopwatch.Start();
-            string path = "";
-            Console.WriteLine("Si obtuve parámetros: " + args[0]);
-            Thread thread = new Thread(() => func_thr(501,1000));
-            thread.Start();
-            for (int i = 1; i <= 500; i++){
-                path = Globals.pathBase + i.ToString() + ".csv";
-                readFile(path);
+            Thread thread1;
+            Thread thread2;
+            Thread thread3;
+            Thread thread4;
+            Thread thread5;
+            Thread thread6;
+            Thread thread7;
+            if (args.Length > 0)
+            {
+                int value = Convert.ToInt32(args[0]);
+                switch(value) 
+                {
+                    case 1:
+                        ciclo(1,1000);
+                        break;
+                    case 2:
+                        thread1 = new Thread(() => func_thr(501,1000));
+                        thread1.Start();
+                        ciclo(1,501);
+                        thread1.Join();
+                        break;
+                    case 4:
+                        thread1 = new Thread(() => func_thr(251,501));
+                        thread2 = new Thread(() => func_thr(501,751));
+                        thread3 = new Thread(() => func_thr(751,1000));
+                        thread1.Start();
+                        thread2.Start();
+                        thread3.Start();
+                        ciclo(1,251);
+                        thread1.Join();
+                        thread2.Join();
+                        thread3.Join();
+                        break;
+                    case 8:
+                        thread1 = new Thread(() => func_thr(125,251));
+                        thread2 = new Thread(() => func_thr(251,376));
+                        thread3 = new Thread(() => func_thr(376,501));
+                        thread4 = new Thread(() => func_thr(501,626));
+                        thread5 = new Thread(() => func_thr(626,751));
+                        thread6 = new Thread(() => func_thr(751,876));
+                        thread7 = new Thread(() => func_thr(876,1000));
+                        thread1.Start();
+                        thread2.Start();
+                        thread3.Start();
+                        thread4.Start();
+                        thread5.Start();
+                        thread6.Start();
+                        thread7.Start();
+                        ciclo(1,126);
+                        thread1.Join();
+                        thread2.Join();
+                        thread3.Join();
+                        thread4.Join();
+                        thread5.Join();
+                        thread6.Join();
+                        thread7.Join();
+                        break;
+                    default:
+                        Console.WriteLine("Los unicos parametros validos para el numero de hilos son: [1, 2, 4, 8]");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("No hay parametros");
             }
             stopwatch.Stop();
             Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
-        static void func_thr(object min, object max){
+        static void ciclo(int inicio, int final){
             string path = "";
-            int value = Convert.ToInt32(max);
-            for (int i = (Convert.ToInt32(min)); i < value; i++){
+            for (int i = inicio; i < final; i++){
+                path = Globals.pathBase + i.ToString() + ".csv";
+                readFile(path);
+            }
+        }
+
+        static void func_thr(object inicio, object final){
+            string path = "";
+            for (int i = Convert.ToInt32(inicio); i < Convert.ToInt32(final); i++){
                 path = Globals.pathBase + i.ToString() + ".csv";
                 readFile(path);
             }
@@ -134,6 +198,7 @@ namespace App{
         }
 
         static void generateCsvFile(List<int> sizes, List<double> averages, List<double> stds, List<int> mins, List<int> maxs, string no_document){
+            //var path = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_respuesta\index_data_out_" + no_document + ".csv";
             var path = @"/Users/carlosalvarado/Desktop/SO/proyecto-Threads/Docker_proyecto/so_respuesta/archivo_out_" + no_document + ".csv";
             var csv = new StringBuilder();
             var newLine = string.Format("{0},{1},{2},{3},{4}","","Open", "High", "Low", "Close");
