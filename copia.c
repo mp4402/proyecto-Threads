@@ -17,15 +17,13 @@ FILE *fptr;
 char row[MAXCHAR];
 char *token,*ret;
 char c;
-double entero,columna,c1,c2,c3,c4;
+double entero,columna,c1,c2;
 printf("Hello from thread %u - I was created in iteration %d !\n", (int)pthread_self(), (int)data);
     fptr = fopen("t.csv","r");
     entero=0;
     columna=0;
     c1=0;
     c2=0;
-    c3=0;
-    c4=0;
     while (!feof(fptr)) {
 	fgets(row,MAXCHAR,fptr);
 	token = strtok(row,",");
@@ -36,11 +34,6 @@ printf("Hello from thread %u - I was created in iteration %d !\n", (int)pthread_
 				c1+=atof(token);
 			else if (columna==1)
 				c2+=atof(token);
-            else if (columna==2)
-				c3+=atof(token);
-            else if (columna==3)
-				c4+=atof(token);
-            
 			columna++;
 		}
 		else{
@@ -49,7 +42,7 @@ printf("Hello from thread %u - I was created in iteration %d !\n", (int)pthread_
 		token = strtok(NULL,",");
 	}
     }
-		printf("Thread %u - created in ite: %d row: %s token: %s c1: %f c2: %f  c3: %f  c4: %f!\n", (int)pthread_self(), (int)data,row,token,c1,c2,c3,c4);
+		printf("Thread %u - created in ite: %d row: %s token: %s %f %f!\n", (int)pthread_self(), (int)data,row,token,c1,c2);
     fclose(fptr);
     pthread_exit(NULL);
 }
