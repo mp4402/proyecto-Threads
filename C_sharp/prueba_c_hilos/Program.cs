@@ -215,10 +215,10 @@ namespace App{
             List<int> mins = new List<int>();
             List<int> maxs = new List<int>();
 
-            // Thread thread1;
-            // Thread thread2;
-            // Thread thread3;
-            // Thread thread4;
+            Thread thread1;
+            Thread thread2;
+            Thread thread3;
+            Thread thread4;
             // Thread thread5;
             // Thread thread6;
             // Thread thread7;
