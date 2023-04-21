@@ -21,8 +21,9 @@ namespace App{
  
             stopwatch.Start();
             string path = "";
-            Thread thread = new Thread(func_thr);
-            thread.Start(1000);
+            Console.WriteLine("Si obtuve parámetros: " + args[0]);
+            Thread thread = new Thread(() => func_thr(501,1000));
+            thread.Start();
             for (int i = 1; i <= 500; i++){
                 path = Globals.pathBase + i.ToString() + ".csv";
                 readFile(path);
@@ -31,10 +32,10 @@ namespace App{
             Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
-        static void func_thr(object limitValue){
+        static void func_thr(object min, object max){
             string path = "";
-            int value = Convert.ToInt32(limitValue);
-            for (int i = (value-499); i < value; i++){
+            int value = Convert.ToInt32(max);
+            for (int i = (Convert.ToInt32(min)); i < value; i++){
                 path = Globals.pathBase + i.ToString() + ".csv";
                 readFile(path);
             }
