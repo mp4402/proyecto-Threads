@@ -14,4 +14,4 @@ WORKDIR /App
 COPY --from=build-env /App/out .
 ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
 #docker run --cpus="1.0" --memory="1g" -v C:/GitHub/proyecto-Threads/Docker_proyecto/so_respuesta:/Docker_proyecto/so_respuesta un-hilo
-#docker run - it --cpus="1.0" --memory="1g" -v /Users/carlosalvarado/Desktop/SO/proyectohilos/App/so_respuesta:/App/so_respuesta proyecto
+#docker run -it --rm --cpus="1.0" --memory="1g" -v /Users/carlosalvarado/Desktop/SO/proyecto-threads/App/so_respuesta:/App/so_respuesta proyecto
