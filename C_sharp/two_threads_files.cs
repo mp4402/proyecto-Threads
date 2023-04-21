@@ -2,12 +2,17 @@ using System;
 using System.IO;
 using System.Text;
 using System.Linq;
+using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace App{
 
+    static class Globals
+    {
+        public static string pathBase = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_data\index_data_";
+    }
     class un_hilo {
 
         static void Main(string[] args)
@@ -16,15 +21,25 @@ namespace App{
  
             stopwatch.Start();
             string path = "";
-            for (int i = 1; i < 1000; i++){
-                path = @"C:\GitHub\proyecto-Threads\Docker_proyecto\so_data\index_data_" + i.ToString() + ".csv";
+            Thread thread = new Thread(func_thr);
+            thread.Start(1000);
+            for (int i = 1; i <= 500; i++){
+                path = Globals.pathBase + i.ToString() + ".csv";
                 readFile(path);
             }
             stopwatch.Stop();
             Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
-      
+        static void func_thr(object limitValue){
+            string path = "";
+            int value = Convert.ToInt32(limitValue);
+            for (int i = (value-499); i < value; i++){
+                path = Globals.pathBase + i.ToString() + ".csv";
+                readFile(path);
+            }
+        }
+
         static void readFile(string path){
             List<int> Open = new List<int>();
             List<int> High = new List<int>();
