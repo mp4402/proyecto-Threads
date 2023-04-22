@@ -19,7 +19,6 @@ namespace App{
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Console.WriteLine(Environment.CurrentDirectory);
 
             if (args.Length > 1)
             {
