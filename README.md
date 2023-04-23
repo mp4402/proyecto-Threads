@@ -5,7 +5,7 @@ Proyecto 2 del curso de Sistemas Operativos, referente a manejo de threads
 
 El programa puede ser ejecutado de 2 maneras: compilado o con un contenedor de Docker
 
-**Nota:**  debe tener los 999 archivos *index_data_#.csv* en la carpeta */your/path/.../proyecto-Threads/App/so_data*. Este repositorio no los incluye
+**Nota:**  debe tener los 999 archivos *index_data_#.csv* en la carpeta */your/path/.../proyecto-Threads/App/so_data*. Este repositorio no los incluye. Para la ejecucion en Docker estos archivos **si** estan incluidos
 
 #### Ejecucion por compilacion
 
