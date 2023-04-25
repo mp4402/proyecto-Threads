@@ -1,6 +1,9 @@
 # proyecto-Threads
 Proyecto 2 del curso de Sistemas Operativos, referente a manejo de threads
 
+### Resultados de ejecuciones
+Los resultados de las ejecuciones se encuentran condensados en el archivo Presentacion_Resultados.pdf y Presentacion_Resultados.pptx. El primero es facilmente leible desde la pagina web  de GitHub. Adicionalmente los valores de cada ejecucion y algunas graficas y valores extra de las ejecuciones y amdals se encuentra en Estadisticas.xlsx
+
 ### ¿Como ejecutar el programa?
 
 El programa puede ser ejecutado de 2 maneras: compilado o con un contenedor de Docker
